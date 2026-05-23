@@ -182,6 +182,8 @@ body::before {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+  box-sizing: border-box;
 }
 
 /* ── HEADER ── */
@@ -190,7 +192,6 @@ body::before {
   background: #0a1f0f;
   border-bottom: 1px solid rgba(201,168,76,0.15);
   padding: 12px 20px 10px;
-  padding-top: calc(12px + env(safe-area-inset-top));
   z-index: 10;
 }
 
