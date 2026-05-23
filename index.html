@@ -182,7 +182,7 @@ body::before {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-top: env(safe-area-inset-top);
+  padding-top: max(50px, env(safe-area-inset-top));
   box-sizing: border-box;
 }
 
@@ -1669,7 +1669,7 @@ function goToSplash(){
   document.getElementById('lang-select').classList.add('visible');
 }
 function scrollToTop(){document.getElementById('content-area').scrollTo({top:0,behavior:'smooth'});}
-if('serviceWorker'in navigator){window.addEventListener('load',()=>{const sw=new Blob(['const C="umrah-v4";self.addEventListener("install",e=>{self.skipWaiting();});self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.map(k=>caches.delete(k))))));self.addEventListener("fetch",e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));'],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(sw)).catch(()=>{});});}
+// Service worker removed — GitHub Pages handles caching
 const ml=document.createElement('link');ml.rel='manifest';ml.href=URL.createObjectURL(new Blob([JSON.stringify({name:'Umrah-guide',short_name:'Umrah',display:'standalone',background_color:'#0a1f0f',theme_color:'#0d2818'})],{type:'application/json'}));document.head.appendChild(ml);
 document.getElementById('app').style.display='none';
 init();
