@@ -832,7 +832,7 @@ body.urdu { font-family: var(--arabic-font); }
         <h1 id="header-ar">دليل العمرة</h1>
         <p id="header-no">Steg-for-steg guide</p>
       </div>
-      <button class="btn-icon" onclick="scrollToTop()" aria-label="Til toppen">↑</button>
+      <button class="btn-icon" onclick="goToSplash()" aria-label="Startside">🏠</button>
     </div>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
@@ -921,7 +921,7 @@ body.urdu { font-family: var(--arabic-font); }
 
       <div class="info-box">
         <span class="info-icon">ℹ️</span>
-        <div>Talbiyah resiteres høyt av menn og stille av kvinner. Fortsett å resitere fra Miqat helt til du begynner Tawaf.</div>
+        <div>Etter at du har tatt på ihram og gjort niyyah, resiter Talbiyah <strong>tre ganger</strong> høyt. Menn resiterer høyt, kvinner stille. Fortsett å resitere fra Miqat helt til du begynner Tawaf.</div>
       </div>
 
     </div>
@@ -1079,15 +1079,16 @@ body.urdu { font-family: var(--arabic-font); }
           <text x="174" y="282" fill="#e2c97e" font-size="8" font-family="Georgia,serif">Rukn al-Yamani</text>
         </svg>
         <div style="text-align:center; font-size:0.72rem; color:var(--gold-main); opacity:0.6; margin-top:6px; font-style:italic;">
-          Tawaf går mot klokken — Kaaba alltid til venstre
+          Tawaf går mot klokken — Kaaba alltid til venstre — gå UTENFOR Hijr Ismail (Hateem)
         </div>
       </div>
 
       <div class="card">
         <div class="card-label">✋ Istilam — Ved Hajar al-Aswad</div>
         <div class="card-body">
-          <strong>Hvis du kan nå den:</strong> Kyss stenen eller ta på den med høyre hånd og kyss hånden.<br><br>
-          <strong>Hvis du ikke kan nå den</strong> (pga folkemengde): Pek mot den med høyre hånd og si Bismillāh, Allāhu Akbar. Du trenger <strong>ikke</strong> presse deg gjennom folkemengden.
+          <strong>Hvis du kan nå den:</strong> Kyss stenen direkte, eller ta på den med høyre hånd og kyss hånden, eller ta på den med en gjenstand og kyss gjenstanden (Tirmidhi).<br><br>
+          <strong>Hvis du ikke kan nå den</strong> (pga folkemengde): Pek mot den med høyre hånd og si Bismillāh, Allāhu Akbar. Du trenger <strong>ikke</strong> presse deg gjennom folkemengden.<br><br>
+          <strong>Gjenta istilam</strong> ved Hajar al-Aswad i starten av <em>hver</em> av de 7 rundene (Bukhari).
         </div>
       </div>
 
@@ -1128,6 +1129,16 @@ body.urdu { font-family: var(--arabic-font); }
           <div class="dua-transliteration">Rabbanā ātinā fi-d-dunyā ḥasanatan wa-fi-l-ākhirati ḥasanatan wa-qinā ʿadhāba-n-nār</div>
           <div class="dua-translation">«Vår Herre, gi oss det gode i dette livet og det gode i det neste livet, og beskytt oss mot Ildens straff.» (Surah al-Baqarah 2:201)</div>
         </div>
+      </div>
+
+      <div class="info-box">
+        <span class="info-icon">✋</span>
+        <div><strong>Rukn al-Yamani:</strong> Ta på dette hjørnet med høyre hånd hvis mulig — men kyss det <em>ikke</em>. Hvis du ikke kan nå det pga folkemengde, gå bare forbi <strong>uten å peke</strong> og uten signal (Ibn Khuzaima). Dette er forskjellig fra Hajar al-Aswad, der man peker hvis man ikke kan nå den.</div>
+      </div>
+
+      <div class="warning-box info-box">
+        <span class="info-icon">⚠️</span>
+        <div><strong>Viktig — Hateem:</strong> Hateem (den halvmåneformede veggen på nordsiden av Kaaba) er en del av Kaaba. Du <strong>må</strong> gå rundt utsiden av Hateem — å gå gjennom Hateem ugyldiggjør Tawaf (Ibn Khuzaima).</div>
       </div>
 
       <div class="info-box">
@@ -1202,7 +1213,7 @@ body.urdu { font-family: var(--arabic-font); }
 
       <div class="info-box">
         <span class="info-icon">💧</span>
-        <div>Etter bønnen: Gå til <strong>Zamzam-brønnen</strong> og drikk Zamzam-vann. Det er Sunnah å drikke det stående, vendt mot Kaaba, mens du gjør dua.</div>
+        <div>Etter bønnen: Gå til <strong>Zamzam-brønnen</strong> og drikk Zamzam-vann. Det er Sunnah å drikke det stående, vendt mot Kaaba, mens du gjør dua. Sprinkle også litt av vannet på hodet (Ahmed). Husk at dua aksepteres ved Zamzam (Ibn Majah) — be for både dunya og akhirah.</div>
       </div>
 
       <div class="dua-card">
@@ -1639,6 +1650,16 @@ function goToStep(i){currentStep=i;updateUI();}
 function toggleDua(header){const card=header.closest('.dua-card'),isOpen=card.classList.contains('open');card.classList.toggle('open',!isOpen);header.querySelector('.dua-chevron').textContent=isOpen?'▼':'▲';}
 function toggleTOC(){document.getElementById('toc-overlay').classList.toggle('open');}
 function closeTOCOnOutside(e){if(e.target===document.getElementById('toc-overlay'))toggleTOC();}
+function goToSplash(){
+  currentStep=0; doneSteps.clear(); currentLang='no';
+  document.body.classList.remove('urdu');
+  document.getElementById('app').style.display='none';
+  const splash=document.getElementById('splash');
+  splash.classList.remove('hidden');
+  const travel=new Date('2026-11-08'); const today=new Date(); today.setHours(0,0,0,0);
+  document.getElementById('splash-days').textContent=Math.max(0,Math.round((travel-today)/(1000*60*60*24)));
+  document.getElementById('lang-select').classList.add('visible');
+}
 function scrollToTop(){document.getElementById('content-area').scrollTo({top:0,behavior:'smooth'});}
 if('serviceWorker'in navigator){window.addEventListener('load',()=>{const sw=new Blob(['const C="umrah-v2";self.addEventListener("install",e=>e.waitUntil(caches.open(C).then(c=>c.addAll(["/"]))));self.addEventListener("fetch",e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));'],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(sw)).catch(()=>{});});}
 const ml=document.createElement('link');ml.rel='manifest';ml.href=URL.createObjectURL(new Blob([JSON.stringify({name:'Umrah-guide',short_name:'Umrah',display:'standalone',background_color:'#0a1f0f',theme_color:'#0d2818'})],{type:'application/json'}));document.head.appendChild(ml);
