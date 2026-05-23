@@ -170,28 +170,27 @@ body::before {
 
 /* ── MAIN APP ── */
 #app {
-  position: relative;
-  z-index: 1;
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── HEADER ── */
-.app-header {
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  z-index: 100;
+  z-index: 1;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+.app-header {
+  flex-shrink: 0;
   background: #0a1f0f;
   border-bottom: 1px solid rgba(201,168,76,0.15);
   padding: 12px 20px 10px;
+  z-index: 10;
 }
 
 .header-top {
@@ -270,13 +269,7 @@ body::before {
 
 /* ── NAV TABS ── */
 .nav-tabs {
-  position: fixed;
-  top: 78px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  z-index: 99;
+  flex-shrink: 0;
   display: flex;
   gap: 6px;
   overflow-x: auto;
@@ -316,8 +309,9 @@ body::before {
 /* ── CONTENT AREA ── */
 .content {
   flex: 1;
-  padding: 128px 16px 100px;
+  padding: 0 16px 100px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── STEP CARD ── */
