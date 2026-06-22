@@ -1839,6 +1839,7 @@ function init() {
 
   setTimeout(() => {
     document.getElementById('lang-select').classList.add('visible');
+    document.getElementById('splash-maps').classList.add('visible');
   }, 1800);
 }
 function selectLang(lang){currentLang=lang;document.getElementById('splash').classList.add('hidden');if(lang==='ur')document.body.classList.add('urdu');buildApp();setTimeout(()=>{document.getElementById('app').style.display='flex';},100);}
@@ -1861,6 +1862,7 @@ function goToSplash(){
   const travel=new Date('2026-11-08'); const today=new Date(); today.setHours(0,0,0,0);
   document.getElementById('splash-days').textContent=Math.max(0,Math.round((travel-today)/(1000*60*60*24)));
   document.getElementById('lang-select').classList.add('visible');
+  document.getElementById('splash-maps').classList.add('visible');
 }
 function scrollToTop(){document.getElementById('content-area').scrollTo({top:0,behavior:'smooth'});}
 // Service worker removed — GitHub Pages handles caching
