@@ -309,14 +309,21 @@ body::before {
 .nav-tab.done::before { content: '✓ '; }
 
 /* ── CONTENT AREA ── */
+/* ── STEP HERO — hidden, info already in header ── */
+.step-hero { display: none; }
+
+/* ── CONTENT AREA ── */
 .content {
   flex: 1;
-  padding: 0 16px calc(90px + env(safe-area-inset-bottom));
+  padding: 0 12px calc(80px + env(safe-area-inset-bottom));
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
+
+/* ── First element top spacing ── */
+.step.active > *:first-child { margin-top: 10px; }
 
 /* ── STEP CARD ── */
 .step {
@@ -393,8 +400,8 @@ body::before {
   background: #132b1a;
   border: 1px solid rgba(201,168,76,0.18);
   border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
 }
 
 .card-label {
@@ -402,7 +409,7 @@ body::before {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold-main);
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -435,14 +442,14 @@ body::before {
   border: 1px solid rgba(201,168,76,0.25);
   border-radius: var(--radius);
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .dua-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 10px 14px;
   background: #1a3d22;
   border-bottom: 1px solid rgba(201,168,76,0.12);
   cursor: pointer;
@@ -460,7 +467,7 @@ body::before {
 .dua-chevron { transition: transform 0.3s; font-size: 0.8rem; color: var(--gold-light); }
 .dua-card.open .dua-chevron { transform: rotate(180deg); }
 
-.dua-body { display: none; padding: 18px; }
+.dua-body { display: none; padding: 12px 14px; }
 .dua-card.open .dua-body { display: block; }
 
 .dua-arabic {
@@ -496,13 +503,13 @@ body::before {
 /* ── INFO BOX ── */
 .info-box {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   background: #152e1c;
   border: 1px solid rgba(201,168,76,0.2);
   border-left: 3px solid var(--gold-main);
   border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
   font-size: 0.86rem;
   line-height: 1.65;
   color: #ecdfc0;
@@ -523,11 +530,11 @@ body::before {
 .step-list li {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
+  gap: 10px;
+  padding: 7px 0;
   border-bottom: 1px solid rgba(201,168,76,0.1);
   font-size: 0.88rem;
-  line-height: 1.6;
+  line-height: 1.55;
   color: #ecdfc0;
 }
 .step-list li > span:not(.li-num) {
