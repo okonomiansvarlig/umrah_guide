@@ -929,9 +929,11 @@ body.urdu { font-family: var(--arabic-font); }
     <div class="lang-buttons">
       <button class="lang-btn" onclick="selectLang('no')">
         <span class="lang-btn-main">Umrah</span>
-             </button>
+        <span class="lang-btn-sub">Norsk</span>
+      </button>
       <button class="lang-btn" onclick="selectLang('ur')">
         <span class="lang-btn-main">عمرہ</span>
+        <span class="lang-btn-sub">اردو</span>
       </button>
       <button class="lang-btn" onclick="openRawdah()">
         <span class="lang-btn-main">🕌</span>
@@ -941,7 +943,7 @@ body.urdu { font-family: var(--arabic-font); }
   </div>
 
   <div class="splash-maps" id="splash-maps">
-    <div class="splash-map-label">Kart</div>
+    <div class="splash-map-label">Merkede kart</div>
     <div class="splash-map-btns">
       <button class="splash-map-btn" onclick="openMap('makkah')">
         <span class="map-icon">🕋</span>
@@ -1850,7 +1852,20 @@ function init() {
     document.getElementById('splash-maps').classList.add('visible');
   }, 1800);
 }
-function selectLang(lang){currentLang=lang;document.getElementById('splash').classList.add('hidden');if(lang==='ur')document.body.classList.add('urdu');buildApp();setTimeout(()=>{document.getElementById('app').style.display='flex';},100);}
+function selectLang(lang){
+  currentLang=lang;
+  document.getElementById('splash').classList.add('hidden');
+  if(lang==='ur') document.body.classList.add('urdu');
+  const ov=document.getElementById('overview-screen');
+  ov.style.display='flex';
+  document.getElementById('overview-start-btn').textContent=
+    lang==='ur' ? 'گائیڈ شروع کریں ←' : 'Start guiden →';
+}
+function startGuideFromOverview(){
+  document.getElementById('overview-screen').style.display='none';
+  buildApp();
+  document.getElementById('app').style.display='flex';
+}
 function buildApp(){buildNavTabs();buildTOC();updateUI();}
 function buildNavTabs(){const nav=document.getElementById('nav-tabs');nav.innerHTML='';LANG[currentLang].steps.forEach((s,i)=>{const tab=document.createElement('button');tab.className='nav-tab';tab.textContent=s.icon+' '+(i+1);tab.onclick=()=>goToStep(i);nav.appendChild(tab);});}
 function buildTOC(){const list=document.getElementById('toc-list');list.innerHTML='';const dir=currentLang==='ur'?'rtl':'ltr';LANG[currentLang].steps.forEach((s,i)=>{const item=document.createElement('div');item.className='toc-item';item.id='toc-'+i;item.innerHTML='<div class="toc-num">'+s.icon+'</div><div class="toc-text" style="direction:'+dir+'"><strong>'+s.no+'</strong><span>'+s.ar+'</span></div>';item.onclick=()=>{goToStep(i);toggleTOC();};list.appendChild(item);});}
@@ -1865,6 +1880,7 @@ function goToSplash(){
   currentStep=0; doneSteps.clear(); currentLang='no';
   document.body.classList.remove('urdu');
   document.getElementById('app').style.display='none';
+  document.getElementById('overview-screen').style.display='none';
   const splash=document.getElementById('splash');
   splash.classList.remove('hidden');
   const travel=new Date('2026-11-08'); const today=new Date(); today.setHours(0,0,0,0);
@@ -1897,7 +1913,132 @@ init();
 </div>
 
 
-<!-- RAWDAH OVERLAY -->
+<!-- VISUAL OVERVIEW -->
+<div id="overview-screen" style="
+  position:fixed;inset:0;z-index:1500;
+  background:#0a1f0f;
+  display:none;flex-direction:column;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
+">
+  <div style="padding:20px 16px 8px;text-align:center;">
+    <div style="font-family:'Scheherazade New',serif;font-size:1.6rem;color:#e2c97e;margin-bottom:4px;">دليل العمرة</div>
+    <div style="font-size:0.78rem;color:#f5e9c0;opacity:0.6;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:20px;">De 4 stegene i Umrah</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 20px;">
+
+    <!-- IHRAM -->
+    <div style="background:#132b1a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:16px 12px;text-align:center;">
+      <svg viewBox="0 0 120 120" style="width:100%;max-width:110px;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background circle -->
+        <circle cx="60" cy="60" r="55" fill="#1a4a2a" opacity="0.5"/>
+        <!-- Head -->
+        <circle cx="60" cy="32" r="14" fill="#f5e9c0" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Ihram top cloth draped over shoulders -->
+        <path d="M34,52 Q60,42 86,52 L90,95 Q60,105 30,95 Z" fill="#fdf8ee" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Ihram bottom cloth -->
+        <path d="M32,90 Q60,98 88,90 L92,112 Q60,120 28,112 Z" fill="#fdf8ee" stroke="#c9a84c" stroke-width="1"/>
+        <!-- Shoulder seam detail -->
+        <path d="M46,52 Q60,58 74,52" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+        <!-- Gold accent line -->
+        <line x1="45" y1="70" x2="75" y2="70" stroke="#c9a84c" stroke-width="1" opacity="0.4" stroke-dasharray="3,2"/>
+      </svg>
+      <div style="font-size:1rem;font-weight:700;color:#e2c97e;margin:8px 0 4px;">Ihram</div>
+      <div style="font-size:0.72rem;color:#f5e9c0;opacity:0.7;line-height:1.4;">Ikle deg de hvite klærne og gjør niyyah ved Miqat</div>
+    </div>
+
+    <!-- TAWAF -->
+    <div style="background:#132b1a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:16px 12px;text-align:center;">
+      <svg viewBox="0 0 120 120" style="width:100%;max-width:110px;" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="55" fill="#1a4a2a" opacity="0.5"/>
+        <!-- Tawaf path circles -->
+        <circle cx="60" cy="60" r="44" fill="none" stroke="#c9a84c" stroke-width="1" stroke-dasharray="5,4" opacity="0.4"/>
+        <circle cx="60" cy="60" r="34" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+        <!-- Ka'ba -->
+        <rect x="46" y="46" width="28" height="28" rx="2" fill="#0a1f0f" stroke="#c9a84c" stroke-width="2"/>
+        <!-- Kiswah gold band -->
+        <rect x="46" y="46" width="28" height="6" rx="1" fill="#c9a84c" opacity="0.7"/>
+        <!-- Door -->
+        <rect x="55" y="61" width="10" height="13" rx="1" fill="#1a4a2a"/>
+        <!-- Counter-clockwise arrow -->
+        <path d="M60,16 A44,44 0 0,0 16,60" fill="none" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+        <polygon points="12,56 18,64 24,57" fill="#c9a84c"/>
+        <!-- Walker removed -->
+      </svg>
+      <div style="font-size:1rem;font-weight:700;color:#e2c97e;margin:8px 0 4px;">Tawaf</div>
+      <div style="font-size:0.72rem;color:#f5e9c0;opacity:0.7;line-height:1.4;">7 runder rundt Ka'ba mot klokken</div>
+    </div>
+
+    <!-- SA'I -->
+    <div style="background:#132b1a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:16px 12px;text-align:center;">
+      <svg viewBox="0 0 120 120" style="width:100%;max-width:110px;" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="55" fill="#1a4a2a" opacity="0.5"/>
+        <!-- Ground line -->
+        <line x1="10" y1="88" x2="110" y2="88" stroke="#c9a84c" stroke-width="1" opacity="0.4"/>
+        <!-- Safa hill (left) -->
+        <ellipse cx="26" cy="88" rx="18" ry="10" fill="#245e35" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="26" y="91" text-anchor="middle" fill="#e2c97e" font-size="9" font-family="Helvetica" font-weight="bold">Safa</text>
+        <!-- Marwah hill (right) -->
+        <ellipse cx="94" cy="88" rx="18" ry="10" fill="#245e35" stroke="#c9a84c" stroke-width="1.5"/>
+        <text x="94" y="91" text-anchor="middle" fill="#e2c97e" font-size="9" font-family="Helvetica" font-weight="bold">Marwah</text>
+        <!-- Path between hills -->
+        <path d="M44,80 Q60,72 76,80" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>
+        <!-- Arrow right -->
+        <polygon points="76,77 82,80 76,83" fill="#c9a84c" opacity="0.8"/>
+        <!-- Walker removed -->
+        <!-- 7x label -->
+        <text x="60" y="40" text-anchor="middle" fill="#c9a84c" font-size="22" font-family="Helvetica" font-weight="bold" opacity="0.9">×7</text>
+        <text x="60" y="55" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="Helvetica" opacity="0.6">runder</text>
+      </svg>
+      <div style="font-size:1rem;font-weight:700;color:#e2c97e;margin:8px 0 4px;">Sa'i</div>
+      <div style="font-size:0.72rem;color:#f5e9c0;opacity:0.7;line-height:1.4;">7 ganger mellom Safa og Marwah</div>
+    </div>
+
+    <!-- BARBERING -->
+    <div style="background:#132b1a;border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:16px 12px;text-align:center;">
+      <svg viewBox="0 0 120 120" style="width:100%;max-width:110px;" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="55" fill="#1a4a2a" opacity="0.5"/>
+        <!-- Head silhouette -->
+        <circle cx="52" cy="48" r="22" fill="#f5e9c0" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Neck + shoulders -->
+        <path d="M38,68 Q52,76 66,68 L70,90 Q52,96 34,90 Z" fill="#f5e9c0" stroke="#c9a84c" stroke-width="1"/>
+        <!-- Hair being cut (lines on top of head) -->
+        <path d="M34,38 Q44,28 58,30 Q68,32 72,40" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        <!-- Cut hairs falling -->
+        <line x1="65" y1="35" x2="72" y2="48" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+        <line x1="70" y1="32" x2="79" y2="44" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+        <line x1="74" y1="38" x2="81" y2="50" stroke="#c9a84c" stroke-width="1" opacity="0.4"/>
+        <!-- Scissors / razor -->
+        <g transform="translate(72,22) rotate(35)">
+          <!-- Razor handle -->
+          <rect x="0" y="0" width="28" height="7" rx="3" fill="#c9a84c"/>
+          <!-- Razor blade -->
+          <path d="M28,1 L42,3.5 L28,6 Z" fill="#e2c97e"/>
+        </g>
+        <!-- Checkmark / done symbol -->
+        <circle cx="90" cy="88" r="12" fill="#1a5e2e" stroke="#c9a84c" stroke-width="1.5"/>
+        <polyline points="84,88 89,93 96,83" stroke="#c9a84c" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div style="font-size:1rem;font-weight:700;color:#e2c97e;margin:8px 0 4px;">Tahallul</div>
+      <div style="font-size:0.72rem;color:#f5e9c0;opacity:0.7;line-height:1.4;">Klippe/barbere håret — Umrah fullført!</div>
+    </div>
+
+  </div>
+
+  <!-- Start button -->
+  <div style="padding:0 16px 20px;">
+    <button id="overview-start-btn" onclick="startGuideFromOverview()" style="
+      width:100%;padding:16px;
+      border-radius:14px;border:none;
+      background:linear-gradient(135deg,#c9a84c,#e2c97e);
+      color:#0a1f0f;font-family:'Lora',serif;
+      font-size:1rem;font-weight:700;cursor:pointer;
+      box-shadow:0 4px 20px rgba(201,168,76,0.3);
+    ">Start guiden →</button>
+  </div>
+</div>
 <div id="rawdah-overlay" style="position:fixed;inset:0;z-index:2000;background:#0a1f0f;display:none;flex-direction:column;">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;padding-top:max(12px,env(safe-area-inset-top));background:#0a1f0f;border-bottom:1px solid rgba(201,168,76,0.2);flex-shrink:0;">
     <div style="font-family:var(--arabic-font);font-size:1.2rem;color:var(--gold-light);">الروضة الشريفة — Rawdah</div>
@@ -1956,7 +2097,7 @@ init();
           <ul class="step-list">
             <li><span class="li-num">1</span><span>Gå inn med intensjon og les inngangs-dua</span></li>
             <li><span class="li-num">2</span><span>Gå til det <strong>grønne og hvite teppet</strong> — vær tålmodig</span></li>
-            <li><span class="li-num">3</span><span>Be <strong>2 rakah nafl</strong> inne på det grønne teppet</span></li>
+            <li><span class="li-num">3</span><span>Be <strong>2 rakah nafl-bønn</strong> inne på det grønne teppet</span></li>
             <li><span class="li-num">4</span><span>Resiter rikelig <strong>salawat</strong> over Profeten ﷺ</span></li>
             <li><span class="li-num">5</span><span>Gjør <strong>personlig dua</strong> — skriv den ned på forhånd</span></li>
             <li><span class="li-num">6</span><span>Gå til Profetens ﷺ grav og si salaam</span></li>
@@ -1973,9 +2114,9 @@ init();
       <div class="dua-body">
         <div class="card-body">
           <strong>Ustuwanat al-Mukhallaq (Den parfymerte søylen)</strong><br>
-          Første søyle til høyre for graven. Profeten ﷺ ba ofte her — regnes som det <em>mest velsignede stedet</em> i Rawdah.<br><br>
+          Første søyle til høyre for graven. Profeten ﷺ bad ofte her — regnes som det <em>mest velsignede stedet</em> i Rawdah.<br><br>
           <strong>Ustuwanat Aisha</strong><br>
-          Aisha (RA) fortalte at Profeten ﷺ ba spesifikt her.<br><br>
+          Aisha (RA) fortalte at Profeten ﷺ bad spesifikt her.<br><br>
           <strong>Ustuwanat al-Wufood</strong><br>
           Der Profeten ﷺ tok imot stammedelegasjoner.<br><br>
           <strong>Ustuwanat al-Haras</strong><br>
@@ -2004,7 +2145,7 @@ init();
       <div class="dua-body">
         <div class="card-body">
           🟢 <strong>Etter Fajr</strong> — anbefalt. Roligste og mest tilgjengelig.<br>
-          🟢 <strong>Etter Tahajjud</strong> — svært lite folk.<br>
+          🟢 <strong>Etter Tahajjud (pre-dawn)</strong> — svært lite folk.<br>
           🟡 <strong>Hverdager utenfor Ramadan/Hajj</strong> — overkommelig.<br>
           🔴 <strong>Fredager og helger</strong> — veldig fullt.<br>
           🔴 <strong>Ramadan og Hajj-sesong</strong> — ekstremt fullt.
@@ -2017,17 +2158,17 @@ init();
       <div class="card-body">
         <ul>
           <li>Vær i <strong>wudu</strong></li>
-          <li><strong>Ikke dytt eller treng deg frem</strong> — skriv dua-liste på forhånd</li>
+          <li><strong>Ikke puff eller treng deg frem</strong> — skriv dua-lista på forhånd</li>
           <li>Hold <strong>stemmen lav</strong></li>
           <li><strong>Ingen fotografering</strong> inne i Rawdah</li>
-          <li>Hvis du ikke når det grønne teppet — <strong>ikke fortvil</strong>. Bønn i hele Masjid an-Nabawi gir 1000x belønning</li>
+          <li>Hvis du ikke når det grønne teppet — <strong>ikke fortvil</strong>. Bønn i hele Masjid an-Nabawi gir 1000× belønning</li>
         </ul>
       </div>
     </div>
 
     <div class="info-box">
       <span class="info-icon">ℹ️</span>
-      <div>Rawdah-besøk er <strong>ikke obligatorisk</strong> for Umrah — det er en anbefalt frivillig handling (mustahabb). Umrah er gyldig uten.</div>
+      <div>Rawdah-besøk er <strong>ikke obligatorisk</strong> for Umrah — det er en anbefalt frivillig handling (mustahabb). Umrahen er gyldig uten.</div>
     </div>
 
   </div>
